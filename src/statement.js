@@ -61,6 +61,32 @@ function statement (invoice, plays) {
   return result;
 }
 
+const htmlStatement = (invoice, plays) => {
+    let totalAmount = 0;
+    let volumeCredits = 0;
+    let result = `<h1>htmlStatement for ${invoice.customer}</h1>`;
+    result += `<table>\n`;
+    result += `<tr><th>play</th><th>seats</th><th>cost</th></tr>\n`
+    const format = usdFormat();
+    for (let performance of invoice.performances) {
+      const play = plays[performance.playID];
+      let thisAmount = calculateThisAmountByPlayType(0, performance, play);
+      volumeCredits += Math.max(performance.audience - 30, 0);
+      if (COMEDY === play.type) {
+          volumeCredits += Math.floor(performance.audience / 5);
+      }
+      result += `<tr><td>${play.name}</td>`;;
+      result += `<td>${performance.audience}</td>`;
+      result += `<td>${format(thisAmount / 100)}</td></tr>\n`;
+      totalAmount += thisAmount;
+    }
+    result += `</table>\n`;
+    result += `<p>Amount owed is <em>${format(totalAmount / 100)}</em></p>\n`;
+    result += `<p>You earned <em>${volumeCredits}</em> credits</p>`;
+    return result;
+}
+
 module.exports = {
   statement,
+  htmlStatement,
 };
