@@ -1,3 +1,6 @@
+const TRAGEDY = 'tragedy';
+const COMEDY = 'comedy'
+
 const currencyFormat = () => {
     return new Intl.NumberFormat('en-US', {
                style: 'currency',
@@ -23,9 +26,6 @@ const calculateComedyAmount = (performance) => {
     return comedyAmount;
 }
 
-const TRAGEDY = 'tragedy';
-const COMEDY = 'comedy'
-
 const calculateThisAmountByPlayType = (thisAmount, performance, play) => {
     switch (play.type) {
       case TRAGEDY:
@@ -48,10 +48,9 @@ function statement (invoice, plays) {
 
   for (let performance of invoice.performances) {
     const play = plays[performance.playID];
-    let thisAmount = 0;
-    thisAmount = calculateThisAmountByPlayType(thisAmount, performance, play);
+    let thisAmount = calculateThisAmountByPlayType(0, performance, play);
     volumeCredits += Math.max(performance.audience - 30, 0);
-    if ('comedy' === play.type) {
+    if (COMEDY === play.type) {
         volumeCredits += Math.floor(performance.audience / 5);
     }
     result += ` ${play.name}: ${format(thisAmount / 100)} (${performance.audience} seats)\n`;
