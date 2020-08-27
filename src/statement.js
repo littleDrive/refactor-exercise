@@ -24,13 +24,14 @@ const calculateComedyAmount = (performance) => {
 }
 
 const TRAGEDY = 'tragedy';
+const COMEDY = 'comedy'
 
 const calculateThisAmountByPlayType = (thisAmount, performance, play) => {
     switch (play.type) {
       case TRAGEDY:
         thisAmount = calculateTragedyAmount(performance);
         break;
-      case 'comedy':
+      case COMEDY:
         thisAmount += calculateComedyAmount(performance);
         break;
       default:
