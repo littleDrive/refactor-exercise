@@ -6,6 +6,14 @@ const currencyFormat = () => {
              }).format;
 }
 
+const calculateTragedyAmount = (performance) => {
+    let tragedyAmount = 40000;
+    if (performance.audience > 30) {
+        tragedyAmount += 1000 * (performance.audience - 30);
+    }
+    return tragedyAmount;
+}
+
 function statement (invoice, plays) {
   let totalAmount = 0;
   let volumeCredits = 0;
@@ -17,10 +25,7 @@ function statement (invoice, plays) {
     let thisAmount = 0;
     switch (play.type) {
       case 'tragedy':
-        thisAmount = 40000;
-        if (performance.audience > 30) {
-          thisAmount += 1000 * (performance.audience - 30);
-        }
+        thisAmount = calculateTragedyAmount(performance);
         break;
       case 'comedy':
         thisAmount = 30000;
