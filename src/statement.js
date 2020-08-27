@@ -23,15 +23,7 @@ const calculateComedyAmount = (performance) => {
     return comedyAmount;
 }
 
-function statement (invoice, plays) {
-  let totalAmount = 0;
-  let volumeCredits = 0;
-  let result = `Statement for ${invoice.customer}\n`;
-  const format = currencyFormat();
-
-  for (let performance of invoice.performances) {
-    const play = plays[performance.playID];
-    let thisAmount = 0;
+const calculateThisAmountByPlayType = (thisAmount, performance, play) => {
     switch (play.type) {
       case 'tragedy':
         thisAmount = calculateTragedyAmount(performance);
@@ -42,6 +34,19 @@ function statement (invoice, plays) {
       default:
         throw new Error(`unknown type: ${play.type}`);
     }
+    return thisAmount;
+}
+
+function statement (invoice, plays) {
+  let totalAmount = 0;
+  let volumeCredits = 0;
+  let result = `Statement for ${invoice.customer}\n`;
+  const format = currencyFormat();
+
+  for (let performance of invoice.performances) {
+    const play = plays[performance.playID];
+    let thisAmount = 0;
+    thisAmount = calculateThisAmountByPlayType(thisAmount, performance, play);
     volumeCredits += Math.max(performance.audience - 30, 0);
     if ('comedy' === play.type) volumeCredits += Math.floor(performance.audience / 5);
     result += ` ${play.name}: ${format(thisAmount / 100)} (${performance.audience} seats)\n`;
