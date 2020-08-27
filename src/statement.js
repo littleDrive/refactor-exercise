@@ -48,7 +48,9 @@ function statement (invoice, plays) {
     let thisAmount = 0;
     thisAmount = calculateThisAmountByPlayType(thisAmount, performance, play);
     volumeCredits += Math.max(performance.audience - 30, 0);
-    if ('comedy' === play.type) volumeCredits += Math.floor(performance.audience / 5);
+    if ('comedy' === play.type) {
+        volumeCredits += Math.floor(performance.audience / 5);
+    }
     result += ` ${play.name}: ${format(thisAmount / 100)} (${performance.audience} seats)\n`;
     totalAmount += thisAmount;
   }
