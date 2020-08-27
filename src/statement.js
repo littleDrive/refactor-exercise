@@ -1,7 +1,7 @@
 const TRAGEDY = 'tragedy';
 const COMEDY = 'comedy'
 
-const currencyFormat = () => {
+const usdFormat = () => {
     return new Intl.NumberFormat('en-US', {
                style: 'currency',
                currency: 'USD',
@@ -44,7 +44,7 @@ function statement (invoice, plays) {
   let totalAmount = 0;
   let volumeCredits = 0;
   let result = `Statement for ${invoice.customer}\n`;
-  const format = currencyFormat();
+  const format = usdFormat();
 
   for (let performance of invoice.performances) {
     const play = plays[performance.playID];
